@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 from langchain.agents import create_agent
 from langchain.chat_models import init_chat_model
+from deepeval.tracing import observe
 
 from educosys_claude.config import config
 from educosys_claude.tools.filesystem_tools import (
@@ -139,6 +140,7 @@ AGENT OUTPUT:
 # Main entry point — called by orchestrator._execute()
 # ------------------------------------------------------------------
 
+@observe(type="agent", name="task_executor")
 async def run_subtask_agent(task: dict, dep_outputs: list[dict] | None = None) -> str:
     """
     Build a fresh agent for a single task and invoke it.

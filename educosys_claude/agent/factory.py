@@ -14,10 +14,15 @@ Always use the search_codebase tool before answering any question.
 Reference specific file names, function names and line numbers in your answers.
 If you cannot find the answer in the codebase, say so explicitly."""
 
-async def build_agent(checkpointer):
-   """Create and return a LangChain agent with persistent memory."""
+async def build_agent(checkpointer, include_mcp_tools: bool = True):
+   """Create and return a LangChain agent with persistent memory.
+
+   include_mcp_tools=False skips connecting to configured MCP servers (which
+   spawn external processes over stdio) — useful for evals and other contexts
+   that only need the built-in codebase/skill/terminal tools.
+   """
    llm = get_llm()
-   mcp_tools = await get_educosys_mcp_tools()
+   mcp_tools = await get_educosys_mcp_tools() if include_mcp_tools else []
 
    skills_prompt = build_skills_prompt()
    full_prompt = SYSTEM_PROMPT

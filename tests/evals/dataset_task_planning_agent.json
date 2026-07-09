@@ -1,0 +1,120 @@
+[
+    {
+        "input": "Develop a Python tool to extract meteorological data via API and archive it in JSON format.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Design a REST API endpoint that retrieves user profiles by integrating user ID validation and data retrieval logic.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Design a CLI tool that not only converts Markdown files to HTML with customizable styles but also supports batch processing and integrates with version control systems for seamless updates.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Devise a web app enabling image uploads, filter application, and user interaction for enhanced visual effects.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Compare the effectiveness of automated email notifications vs. SMS alerts for abandoned carts in e-commerce.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Devise a JS lib offering multifaceted date/time utilities, ensuring seamless integration and cross-platform compatibility.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Design a mobile app integrating hydration tracking, user reminders, and personalized water intake analytics.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Imagine a PM tool auto-generates Gantt charts from task lists. How might this enhance project efficiency?",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Design a conversational AI system facilitating appointment scheduling via natural language processing and user interaction.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "Dev a Python script to analyze txt files for sentiment analysis & gen a concise summary rpt.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null
+    },
+    {
+        "input": "In the existing expense_tracker project, add a delete_category_expenses(category) method to ExpenseStore that removes every expense in the given category and returns how many were removed.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null,
+        "additional_metadata": {"seed_existing_project": true}
+    },
+    {
+        "input": "In the existing expense_tracker project, add input validation to the CLI's 'add' subcommand so a non-positive amount prints a clear error message instead of raising an unhandled exception from the Expense dataclass.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null,
+        "additional_metadata": {"seed_existing_project": true}
+    },
+    {
+        "input": "In the existing expense_tracker project, add a new HEALTH category to the Category enum in models.py, following the same pattern as the existing categories.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null,
+        "additional_metadata": {"seed_existing_project": true}
+    },
+    {
+        "input": "In the existing expense_tracker project, add a total_expense_count() method to ExpenseStore that returns how many expenses are currently stored.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null,
+        "additional_metadata": {"seed_existing_project": true}
+    },
+    {
+        "input": "In the existing expense_tracker project, add a CSV export function to reports.py that writes all of a store's expenses to a CSV file with columns: id, amount, category, description, incurred_on.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null,
+        "additional_metadata": {"seed_existing_project": true}
+    },
+    {
+        "input": "In the existing expense_tracker project, fix BudgetChecker so that calling enforce_budget for a category with no configured limit never raises an error, even if that category has expenses.",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "source_file": null,
+        "additional_metadata": {"seed_existing_project": true}
+    }
+]

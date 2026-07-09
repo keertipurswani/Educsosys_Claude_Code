@@ -1,0 +1,86 @@
+[
+  {
+    "input": "Which file defines the ExpenseStore class, and what does its total_all method compute?",
+    "expected_output": "ExpenseStore is defined in expense_tracker/store.py. Its total_all() method sums the amount of every expense currently in the store, using sum(e.amount for e in self._expenses.values()).",
+    "context": [],
+    "source_file": "expense_tracker/store.py"
+  },
+  {
+    "input": "How many custom exception classes does this project define, and what triggers each one?",
+    "expected_output": "Two: ExpenseNotFoundError in store.py, raised by remove_expense and get_expense when the given expense id isn't in the store; and BudgetExceededError in budgets.py, raised by BudgetChecker.enforce_budget when a category's spending exceeds its configured limit.",
+    "context": [],
+    "source_file": "expense_tracker/store.py"
+  },
+  {
+    "input": "What would happen if you called BudgetChecker.enforce_budget on a category with no spending yet?",
+    "expected_output": "Nothing would be raised. With zero spending, total_by_category returns 0, so remaining_budget (limit - spent) is >= 0 for any positive or unset limit, is_over_budget returns False, and enforce_budget's if branch is skipped.",
+    "context": [],
+    "source_file": "expense_tracker/budgets.py"
+  },
+  {
+    "input": "Trace through what happens when a user runs `expense-tracker add 50 food lunch` from the CLI.",
+    "expected_output": "cli.py's build_parser() routes this to the 'add' subparser, giving args.amount=50.0, args.category='food', args.description='lunch'. main() then calls store.add_expense(50.0, Category('food'), 'lunch', date.today()) on a fresh in-memory ExpenseStore, and prints 'Added 50.0 to food'.",
+    "context": [],
+    "source_file": "expense_tracker/cli.py"
+  },
+  {
+    "input": "Is there any code in this project that prevents an expense from being created with a negative amount? Where?",
+    "expected_output": "Yes — Expense.__post_init__ in models.py raises ValueError(f\"Expense amount must be positive, got {self.amount}\") whenever self.amount <= 0, so both zero and negative amounts are rejected at construction time.",
+    "context": [],
+    "source_file": "expense_tracker/models.py"
+  },
+  {
+    "input": "What Python standard library modules does reports.py depend on?",
+    "expected_output": "reports.py imports defaultdict from the standard library's collections module (used in category_breakdown); it otherwise only depends on the project's own store.py.",
+    "context": [],
+    "source_file": "expense_tracker/reports.py"
+  },
+  {
+    "input": "If I wanted to add a new Category value called HEALTH, which file would I need to edit and what pattern should I follow?",
+    "expected_output": "You would edit expense_tracker/models.py and add HEALTH = \"health\" as a new member of the Category(str, Enum) class, following the same pattern as the existing FOOD, TRANSPORT, HOUSING, ENTERTAINMENT, and OTHER members.",
+    "context": [],
+    "source_file": "expense_tracker/models.py"
+  },
+  {
+    "input": "Does ExpenseStore persist data to disk, or is it in-memory only? How do you know?",
+    "expected_output": "In-memory only. ExpenseStore.__init__ initializes self._expenses as a plain Python dict[int, Expense] with no file, database, or serialization calls anywhere in store.py — all data is lost when the process ends.",
+    "context": [],
+    "source_file": "expense_tracker/store.py"
+  },
+  {
+    "input": "What's the difference between get_expense and list_expenses in ExpenseStore?",
+    "expected_output": "get_expense(expense_id) looks up and returns a single Expense by id, raising ExpenseNotFoundError if it doesn't exist. list_expenses() takes no arguments and returns every stored Expense as a list, sorted ascending by id, never raising an error even if the store is empty.",
+    "context": [],
+    "source_file": "expense_tracker/store.py"
+  },
+  {
+    "input": "Which function should I call to find out if spending is currently within budget for a specific category, and what does it return?",
+    "expected_output": "BudgetChecker.is_over_budget(category) in budgets.py — it returns a bool, True if the category's spending has exceeded its configured limit (remaining_budget < 0), False otherwise.",
+    "context": [],
+    "source_file": "expense_tracker/budgets.py"
+  },
+  {
+    "input": "How does the CLI's 'report' subcommand generate its output?",
+    "expected_output": "main() checks args.command == 'report', then calls category_breakdown(store) from reports.py to get a {category: total} dict, and prints one line per category as f'{category.value}: {total:.2f}'.",
+    "context": [],
+    "source_file": "expense_tracker/cli.py"
+  },
+  {
+    "input": "Are there any type hints on ExpenseStore's methods indicating what they return?",
+    "expected_output": "Yes — every ExpenseStore method is annotated: add_expense returns Expense, remove_expense returns None, get_expense returns Expense, list_expenses returns list[Expense], total_by_category and total_all return float.",
+    "context": [],
+    "source_file": "expense_tracker/store.py"
+  },
+  {
+    "input": "Which class in this project has a constructor that takes both an ExpenseStore and a dict of spending limits?",
+    "expected_output": "BudgetChecker in budgets.py — its __init__(self, store: ExpenseStore, limits: dict[Category, float]) takes an ExpenseStore instance and a dict mapping Category to a float limit, storing both as self.store and self.limits.",
+    "context": [],
+    "source_file": "expense_tracker/budgets.py"
+  },
+  {
+    "input": "What would ExpenseStore.total_by_category(Category.HOUSING) return if no housing expenses have been added yet?",
+    "expected_output": "0 (specifically 0, the identity value of sum() over an empty generator), since total_by_category sums e.amount for every expense whose category matches, and no expenses match an unused category.",
+    "context": [],
+    "source_file": "expense_tracker/store.py"
+  }
+]

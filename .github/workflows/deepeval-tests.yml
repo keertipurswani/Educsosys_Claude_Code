@@ -1,0 +1,65 @@
+name: DeepEval Agent & RAG Evals
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Cache Poetry virtualenv
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: poetry-${{ runner.os }}-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            poetry-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: poetry install
+
+      # Fastest/cheapest suite first — retrieval only, no LLM generation.
+      - name: Run RAG retrieval evals
+        if: always()
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: >
+          poetry run deepeval test run tests/evals/test_rag_pipeline.py
+          --ignore-errors --skip-on-missing-params
+          --identifier "ci-rag-${{ github.run_id }}"
+
+      - name: Run codebase agent evals
+        if: always()
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: >
+          poetry run deepeval test run tests/evals/test_codebase_agent.py
+          --ignore-errors --skip-on-missing-params
+          --identifier "ci-codebase-agent-${{ github.run_id }}"
+
+      # Slowest/most expensive suite last — plans + executes real subtasks.
+      - name: Run task planning agent evals
+        if: always()
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: >
+          poetry run deepeval test run tests/evals/test_task_planning_agent.py
+          --ignore-errors --skip-on-missing-params
+          --identifier "ci-task-planning-${{ github.run_id }}"

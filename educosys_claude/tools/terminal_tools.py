@@ -1,6 +1,7 @@
 import subprocess
 import os
 from langchain.tools import tool
+from deepeval.tracing import observe
 
 
 _BLOCKED_COMMANDS = {"rm -rf /", "mkfs", "dd if=", ":(){:|:&};:"}
@@ -23,6 +24,7 @@ def _format_result(result: subprocess.CompletedProcess) -> str:
 
 
 @tool
+@observe(type="tool", name="run_command")
 def run_command(command: str) -> str:
    """Run a shell command and return its output. Times out after 30 seconds."""
    if not command or not command.strip():
@@ -45,6 +47,7 @@ def run_command(command: str) -> str:
 
 
 @tool
+@observe(type="tool", name="run_in_directory")
 def run_in_directory(command: str, directory: str) -> str:
    """Run a shell command inside a specific directory. Times out after 30 seconds."""
    if not command or not command.strip():

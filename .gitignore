@@ -19,3 +19,8 @@ venv/
 .educosys
 
 .DS_Store
+
+# DeepEval local cache, telemetry, and last-run results — not durable artifacts
+.deepeval/
+.deepeval-cache.json
+.deepeval_telemetry.txt

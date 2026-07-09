@@ -3,6 +3,7 @@ from __future__ import annotations
 from pydantic import BaseModel
 from langchain.agents import create_agent
 from langchain.chat_models import init_chat_model
+from deepeval.tracing import observe, update_current_trace
 
 from educosys_claude.config import config
 from educosys_claude.tasks.task_store import TaskType
@@ -47,6 +48,7 @@ Rules:
 """
 
 
+@observe(type="agent", name="task_planner")
 def create_plan(goal: str, extra_context: str = "") -> ExecutionPlan:
     """Call the LLM planner and return a structured ExecutionPlan."""
     provider = config["llm"]["provider"]
@@ -68,4 +70,8 @@ def create_plan(goal: str, extra_context: str = "") -> ExecutionPlan:
     result = planner_agent.invoke({"messages": [{"role": "user", "content": user_message}]})
     plan: ExecutionPlan = result["structured_response"]
     logger.info(f"Plan created: {plan.project_name} with {len(plan.tasks)} tasks")
+
+    # Traces need a string actual_output for evals; the plan itself stays structured
+    # for callers (task_store, approval UI, etc).
+    update_current_trace(input=user_message, output=plan.model_dump_json(indent=2))
     return plan

@@ -1,3 +1,5 @@
+from deepeval.tracing import observe
+
 from educosys_claude.config import config
 from educosys_claude.observability.logger import get_logger
 
@@ -5,6 +7,7 @@ from educosys_claude.observability.logger import get_logger
 logger = get_logger(__name__)
 
 
+@observe(type="agent", name="codebase_agent")
 async def handle_query(
     agent,
     question: str,

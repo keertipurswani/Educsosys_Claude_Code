@@ -1,11 +1,13 @@
 import os
 from langchain.tools import tool
+from deepeval.tracing import observe
 
 
 _MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024  # 10 MB
 
 
 @tool
+@observe(type="tool", name="read_file")
 def read_file(file_path: str) -> str:
    """Read and return the contents of a file."""
    if not file_path or not file_path.strip():
@@ -29,6 +31,7 @@ def read_file(file_path: str) -> str:
 
 
 @tool
+@observe(type="tool", name="write_file")
 def write_file(file_path: str, content: str) -> str:
    """Write content to a file, creating it and any parent directories if needed."""
    if not file_path or not file_path.strip():
@@ -48,6 +51,7 @@ def write_file(file_path: str, content: str) -> str:
 
 
 @tool
+@observe(type="tool", name="append_file")
 def append_file(file_path: str, content: str) -> str:
    """Append content to an existing file."""
    if not file_path or not file_path.strip():
@@ -85,6 +89,7 @@ def append_file(file_path: str, content: str) -> str:
 
 
 @tool
+@observe(type="tool", name="list_directory")
 def list_directory(directory: str) -> str:
    """List files and subdirectories inside a directory."""
    if not directory or not directory.strip():
@@ -103,6 +108,7 @@ def list_directory(directory: str) -> str:
 
 
 @tool
+@observe(type="tool", name="file_exists")
 def file_exists(file_path: str) -> str:
    """Check whether a file or directory exists."""
    if not file_path or not file_path.strip():

@@ -1,4 +1,5 @@
 from langchain.tools import tool
+from deepeval.tracing import observe
 
 
 from educosys_claude.context.retrievers.factory import get_retriever
@@ -9,6 +10,7 @@ logger = get_logger(__name__)
 
 
 @tool
+@observe(type="tool", name="search_codebase")
 def search_codebase(query: str) -> str:
    """
    Search the codebase for relevant classes, functions or logic.
