@@ -1,0 +1,43 @@
+embeddings:
+ provider: openai             
+ model: text-embedding-3-small
+ dims: 1536
+
+semantic_cache:
+ enabled: true
+ redis_url: redis://localhost:6379
+ threshold: 0.85
+ ttl: 86400
+
+tasks:
+ db_path: .educosys/tasks.db
+
+llm:
+ provider: openai
+ model: gpt-5.5
+ judge_model: gpt-4o-mini   # cheaper model used only for LLM-as-judge
+
+skills:
+ skills_dir: .educosys/skills
+
+memory:
+ db_path: .educosys/memory/memory.db
+ summarize_at_tokens: 4000
+ keep_last_messages: 20
+
+chromadb:
+ persist_dir: .educosys/chromadb/
+ collection_name: codebase
+
+rag:
+ mode: semantic           # semantic | hybrid
+
+vector_store:
+ provider: chroma
+ retrieval_mode: dense  # dense | sparse | hybrid
+
+vector_store:
+ provider: chroma
+
+qdrant:
+ collection_name: educosys_claude
